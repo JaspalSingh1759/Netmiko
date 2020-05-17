@@ -3,7 +3,7 @@ from datetime import datetime
 from copy import deepcopy
 import yaml
 import time
-
+import re
 
 """ 
 	Getting the Host file from our yaml file that has all the list  host in the network 
@@ -41,31 +41,46 @@ def get_connection_parameter(parsed_yaml):
 		host_dict = {}
 		host_dict.update(login_credentials)
 		host_dict.update(host)
-	"""	The yield statement suspends function’s execution and sends a value back to the caller, but retains enough state to enable function to resume where it is left off. 
-		When resumed, the function continues execution immediately after the last yield run.
-		 This allows its code to produce a series of values over time, rather than computing them at once and sending them back like a list.
-	"""
+	#"""	The yield statement suspends function’s execution and sends a value back to the caller, but retains enough state to enable function to resume where it is left off. 
+	#	When resumed, the function continues execution immediately after the last yield run.
+	#	 This allows its code to produce a series of values over time, rather than computing them at once and sending them back like a list.
+	#"""
 		yield host_dict
 ### Putting show  commands into the decive and setting connection
 
 
+
 def show_commands(devices , commands):
 	for device in devices:
-		if device['host'] ==  
-		start_time =datetime.now()
-		hostname =device['host']
-		connection = ConnectHandler(**device)
-		device_result= ["{0} {1} {0}".format("="*10,hostname)]	
-		for command in commands:
-			command_result = connection.send_command(command)
-			device_result.append("{0} {1} {0}".format("=" * 10, command))
-			device_result.append(command_result)
-		device_result_string = "\n\n".join(device_result)
-		connection.disconnect()
-		device_result_string += "\nElapsed time:" + str(datetime.now() - start_time)
-		yield device_result_string
-
-
+		hostname = device['host']
+		exp = bool(re.findall("R\w",hostname))
+		print(exp)
+		if exp == True:  
+			start_time =datetime.now()
+			hostname =device['host']
+			connection = ConnectHandler(**device)
+			device_result= ["{0} {1} {0}".format("="*10,hostname)]	
+			for command in commands[:2]:
+				command_result = connection.send_command(command)
+				device_result.append("{0} {1} {0}".format("=" * 10, command))
+				device_result.append(command_result)
+			device_result_string = "\n\n".join(device_result)
+			connection.disconnect()
+			device_result_string += "\nElapsed time:" + str(datetime.now() - start_time)
+			yield device_result_string
+		else:
+			start_time =datetime.now()
+			hostname =device['host']
+			connection = ConnectHandler(**device)
+			device_result= ["{0} {1} {0}".format("="*10,hostname)]
+			for command in commands:
+        			command_result = connection.send_command(command)
+        			device_result.append("{0} {1} {0}".format("=" * 10, command))
+        			device_result.append(command_result)
+			device_result_string = "\n\n".join(device_result)
+			connection.disconnect()
+			device_result_string += "\nElapsed time:" + str(datetime.now() - start_time)
+			yield device_result_string
 
 def main():
 	COMMANDS = command_yaml()
@@ -80,5 +95,6 @@ def main():
 		print(device_result)
 
 #Calling the Main Function
+
 if __name__ == "__main__":
 	main()
