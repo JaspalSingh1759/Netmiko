@@ -1,0 +1,19 @@
+all:
+  vars:
+    username: vivek
+    password: vivek
+  sites:
+    - name: eve
+      hosts:
+        - hostname: R1
+          host: 150.1.1.1
+          device_type: cisco_ios
+        - hostname: R7
+          host: 150.1.7.7
+          device_type: cisco_ios
+        - hostname: SW5
+          host: 155.1.100.200
+          device_type: cisco_ios
+        - hostname: SW6
+          host: 155.1.100.201
+          device_type: cisco_ios
