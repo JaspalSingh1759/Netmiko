@@ -1,0 +1,57 @@
+#YAML is not a Markup language
+
+
+
+----
+
+#The Hole YAML is in one file
+
+
+
+person:
+   name: &Anchor "vivek"
+   occupation:"engineer"
+   age: 28
+   gpa: 4.1
+   fav_num: 1e+10
+   male: true
+   date: 1992-03-11 04:42:00 	#ISO 8601
+   flaws: null
+   hobbies:
+      - hiking 
+      - movies
+      - riding
+   movies: ["Dark Knight", "The Shawshank Redemption"]
+   friends: 
+	 - name: "none"
+	   age: 29
+	 - {name:"kalso" , age= "42"}
+	 - 
+	   name: "NoBody i can consider as a friend right now to be honest"
+	   age: 28
+
+#The List
+#this will act as single line
+  descrption: > 
+    llskdld 
+    skd;adkd;l kladfjlkj adkd ajdaljd
+    ajdklajdkldj
+#this will  presurve the data
+  signature: |
+    vivek joshi
+    ciena
+    email- vjoshi@ciena.com
+#Anchor the value
+  id: *Anchor #vivek 
+#Anchoring the key and value
+  base: &base
+     var1: value1
+
+  foo:
+     <<: *base #var1: value1
+
+#converting the data type into other type
+  salary: !!float 10000 #10000.0
+  size: !!str 6 #"6"
+	
+
