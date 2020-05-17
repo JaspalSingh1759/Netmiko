@@ -1,0 +1,5 @@
+command:
+  - show ip int br | ex unass
+  - sh ip route
+  - show vlan brief
+
